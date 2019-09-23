@@ -46,3 +46,7 @@ setInterval(function k() {
 		}, 300);
 	}, 200);
 }, 200);
+
+/*
+	Looking back at this, this seems really ugly and very inefficient. I didn't seem to know much about JS back then..
+*/
