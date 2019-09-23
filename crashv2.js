@@ -6,5 +6,5 @@
 	Tested on the following:
 	Linux mint - not working
 	Chromebooks (version unknown) - not working
-	Chrome 77.0.3865.90 non-canary on windows - works very well on 4GB
+	Chrome 77.0.3865.90 non-canary on windows 10 home version 1903 - works very well on 4GB
 */
