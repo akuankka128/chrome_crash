@@ -4,7 +4,7 @@
 });
 /*
 	Tested on the following:
-	Any linux machine - not working
-	Chromebooks - not working
-	Chrome on windows - works very well on 4GB
+	Linux mint - not working
+	Chromebooks (version unknown) - not working
+	Chrome 77.0.3865.90 non-canary on windows - works very well on 4GB
 */
