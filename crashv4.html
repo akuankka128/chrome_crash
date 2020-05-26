@@ -4,50 +4,58 @@
 		<button onclick=crash()>Click to start crashing</button>
 		<div id=buffSize></div>
 		<div id=info></div>
-		<p>Verbose output:</p>
+		<div id=tries></div>
+		<p></p>
 		<ul></ul>
 		<script>
 			function crash() {
+				document.querySelector('p').innerText = 'Verbose output:';
 				document.querySelector('button').setAttribute('disabled', 'true');
 				let bufferSize = 1;
-				let buffSize = document.querySelector('#buffSize');
-				let info = document.querySelector('#info');
 				let buffArr = [];
+				let viewArr = [];
 				let limit = false;
+				let buffSize = document.querySelector('#buffSize');
+				let triesE = document.querySelector('#tries');
+				let info = document.querySelector('#info');
 				let ul = document.querySelector('ul');
+				let tries = 0;
 
 				setInterval(function() {
 					let li = document.createElement('li');
 					info.innerText = 'Creating buffer...';
 					try {
 						buffArr.push(new ArrayBuffer(!limit ? bufferSize *= 2 : bufferSize));
-						buffSize.innerText = 'Buffer size is ' + bufferSize + ' bytes.';
+						viewArr.push(new Int16Array(buffArr[buffArr.length - 1]));
 
+						buffSize.innerText =
+						'Buffer size is '
+							+ bufferSize +
+						' bytes. Buffer array length is '
+							+ buffArr.length +
+						'. View array length is ' + viewArr.length;
+
+						triesE.innerText = 'Tries since last setback: ' + ++tries;
 						li.innerText = `Buffer with a size of ${bufferSize} created.`;
+
+						if(limit && bufferSize < 2 ** 31 && tries >= 5) {
+							bufferSize *= 2;
+							li.innerText += '\nLast error encountered 5+ tries ago. Seems to be safe for a higher size. Multiplying by 2.';
+						}
+
 						ul.appendChild(li);
+						window.scrollBy(0, 500);
 					} catch(e) {
+						tries = 0;
 						li.innerText = `Hit size limit at ${bufferSize} bytes! Setting back to ${bufferSize /= 2}.`;
 						ul.appendChild(li);
+						window.scrollBy(0, 500);
 						limit = true;
 					}
 					info.innerText = 'Buffer created. Waiting...';
-				}, 1000);
+					console.log(buffArr);
+				}, 500);
 			}
 		</script>
 	</body>
 </html>
-
-<!--
-Version 4.
-Features:
-- Dynamic buffer size control
-- Verbose output
-- May crash other tabs/windows too!
-
-Tested on the same ol' potato as before;
-Specs:
-- RAM: 4GB DDR3 (3.68GB usable)
-- Browser: Google Chrome x64 version 81.0.4044.138
-- OS: Windows 10 Home x64 v1903 (OS build 18362.592)
-- Processor: Intel(R) Core(TM) i3 CPU M 380 @ 2.53GHz x4
--->
